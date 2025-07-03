@@ -1,5 +1,5 @@
 import { Typography, Box, Card, CardContent, Grid, Avatar, Stack } from '@mui/material';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import GroupIcon from '@mui/icons-material/Group';
 import FuelMode from '../components/FuelMode';
 import Battery from '../components/Battery';
@@ -11,7 +11,7 @@ import ServiceRequest from '../components/ServiceRequest';
 export default function Dashboard() {
   // Example stats (replace with real data if available)
   const stats = [
-    { label: 'Chapters', value: 8, icon: <MenuBookIcon fontSize="large" color="primary" /> },
+    { label: 'Devices', value: 8, icon: <DevicesOtherIcon fontSize="large" color="primary" /> },
     { label: 'Users', value: 24, icon: <GroupIcon fontSize="large" color="secondary" /> },
   ];
 
@@ -24,7 +24,7 @@ export default function Dashboard() {
             <Avatar sx={{ width: 72, height: 72, bgcolor: '#fff', color: '#667eea', fontWeight: 700, fontSize: 32 }}>A</Avatar>
             <Box>
               <Typography variant="h4" fontWeight={800}>Welcome, Admin!</Typography>
-              <Typography variant="body1" sx={{ opacity: 0.9 }}>Manage your chapters and users with ease.</Typography>
+              <Typography variant="body1" sx={{ opacity: 0.9 }}>Manage your devices and users with ease.</Typography>
             </Box>
           </Stack>
         </CardContent>

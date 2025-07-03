@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getChapters, createChapter, updateChapter, deleteChapter } from '../utils/api';
+import { getDevices, createDevice, updateDevice, deleteDevice } from '../utils/api';
 import {
   Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, Card, CardContent, CardActions, IconButton, Stack, ToggleButton, ToggleButtonGroup, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@mui/material';
@@ -8,43 +8,43 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 
-export default function Chapters({ token }) {
-  const [chapters, setChapters] = useState([]);
+export default function Devices({ token }) {
+  const [chapters, setDevices] = useState([]);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(null);
   const [form, setForm] = useState({ name: '', description: '' });
   const [view, setView] = useState('grid');
 
-  const fetchChapters = async () => {
-    const data = await getChapters(token);
-    setChapters(data);
+  const fetchDevices = async () => {
+    const data = await getDevices(token);
+    setDevices(data);
   };
 
   useEffect(() => {
 
-    fetchChapters();
+    fetchDevices();
 
     
   },
     [token]);
 
-  const handleOpen = (chapter) => {
-    setEdit(chapter || null);
-    setForm(chapter ? { name: chapter.name, description: chapter.description } : { name: '', description: '' });
+  const handleOpen = (device) => {
+    setEdit(device || null);
+    setForm(device ? { name: device.name, description: device.description } : { name: '', description: '' });
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
   const handleSubmit = async () => {
-    if (edit) await updateChapter(edit.id, form, token);
-    else await createChapter(form, token);
+    if (edit) await updateDevice(edit.id, form, token);
+    else await createDevice(form, token);
     setOpen(false);
-    fetchChapters();
+    fetchDevices();
   };
 
   const handleDelete = async (id) => {
-    await deleteChapter(id, token);
-    fetchChapters();
+    await deleteDevice(id, token);
+    fetchDevices();
   };
 
   return (
@@ -53,14 +53,14 @@ export default function Chapters({ token }) {
 
 
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h4" fontWeight={700}>Chapters</Typography>
+        <Typography variant="h4" fontWeight={700}>Devices</Typography>
         <Stack direction="row" spacing={2}>
           <ToggleButtonGroup value={view} exclusive onChange={(_, v) => v && setView(v)} size="small">
             <ToggleButton value="grid" aria-label="Grid view"><ViewModuleIcon /></ToggleButton>
             <ToggleButton value="table" aria-label="Table view"><TableRowsIcon /></ToggleButton>
           </ToggleButtonGroup>
           <Button variant="contained" color="primary" onClick={() => handleOpen()} sx={{ borderRadius: 2, boxShadow: 2 }}>
-            Add New Chapter
+            Add New Device
           </Button>
         </Stack>
       </Stack>
@@ -107,7 +107,7 @@ export default function Chapters({ token }) {
         </TableContainer>
       )}
       <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { borderRadius: 3, minWidth: 350 } }}>
-        <DialogTitle sx={{ fontWeight: 700 }}>{edit ? 'Edit Chapter' : 'Add Chapter'}</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700 }}>{edit ? 'Edit Device' : 'Add Device'}</DialogTitle>
         <DialogContent>
           <TextField label="Name" fullWidth margin="normal" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} autoFocus sx={{ mb: 2 }} />
           <TextField label="Description" fullWidth margin="normal" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} multiline rows={3} />

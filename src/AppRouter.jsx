@@ -4,7 +4,7 @@ import ModernLayout from './layouts/ModernLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import Chapters from './pages/Chapters';
+import Devices from './pages/Devices';
 import Users from './pages/Users';
 
 export default function AppRouter() {
@@ -28,10 +28,10 @@ export default function AppRouter() {
             </ModernLayout>
           ) : <Navigate to="/login" />
         } />
-        <Route path="/chapters" element={
+        <Route path="/devices" element={
           token ? (
             <ModernLayout onLogout={handleLogout}>
-              <Chapters token={token} />
+              <Devices token={token} />
             </ModernLayout>
           ) : <Navigate to="/login" />
         } />

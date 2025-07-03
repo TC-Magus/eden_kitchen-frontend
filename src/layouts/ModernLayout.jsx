@@ -1,7 +1,7 @@
 import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Avatar, Typography, Divider, useTheme } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupIcon from '@mui/icons-material/Group';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const drawerWidth = 220;
 
 const navItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-  { text: 'Chapters', icon: <MenuBookIcon />, path: '/chapters' },
+  { text: 'Devices', icon: <DevicesOtherIcon />, path: '/devices' },
   { text: 'Users', icon: <GroupIcon />, path: '/users' },
 ];
 
@@ -26,8 +26,8 @@ function getAvatarProps(name) {
 export default function ModernLayout({ children, onLogout, user }) {
   const location = useLocation();
   // Example user fallback
-  const displayName = user?.name || 'Academia Admin';
-  const displayEmail = user?.email || 'admin@academia.com';
+  const displayName = user?.name || 'Eden Kitchen';
+  const displayEmail = user?.email || 'admin@edenkitchen.com';
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', background: 'background.default' }}>
       <Drawer
@@ -75,7 +75,7 @@ export default function ModernLayout({ children, onLogout, user }) {
       <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, sm: 4 }, minHeight: '100vh', display: 'flex', flexDirection: 'column', maxWidth: '100vw' }}>
         {children}
         <Box sx={{ mt: 'auto', textAlign: 'center', py: 2, color: 'rgba(0,0,0,0.4)' }}>
-          © {new Date().getFullYear()} Academia Platform
+          © {new Date().getFullYear()} Eden Kitchen Platform
         </Box>
       </Box>
     </Box>

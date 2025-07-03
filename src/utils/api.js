@@ -15,40 +15,56 @@ export const register = (username, password, email) =>
     body: JSON.stringify({ username, password, email })
   }).then(res => res.json());
 
-export const getChapters = (token) =>
-  fetch(`${API_BASE}/chapters`, {
+export const getDevices = (token) =>
+  fetch(`${API_BASE}/devices`, {
     headers: { Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 
-export const getChapter = (id, token) =>
-  fetch(`${API_BASE}/chapters/${id}`, {
+export const getDevice = (id, token) =>
+  fetch(`${API_BASE}/devices/${id}`, {
     headers: { Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 
-export const createChapter = (chapter, token) =>
-  fetch(`${API_BASE}/chapters`, {
+export const createDevice = (device, token) =>
+  fetch(`${API_BASE}/devices`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify(chapter)
+    body: JSON.stringify(device)
   }).then(res => res.json());
 
-export const updateChapter = (id, chapter, token) =>
-  fetch(`${API_BASE}/chapters/${id}`, {
+export const updateDevice = (id, device, token) =>
+  fetch(`${API_BASE}/devices/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify(chapter)
+    body: JSON.stringify(device)
   }).then(res => res.json());
 
-export const deleteChapter = (id, token) =>
-  fetch(`${API_BASE}/chapters/${id}`, {
+export const deleteDevice = (id, token) =>
+  fetch(`${API_BASE}/devices/${id}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 
-export const getUsers = (token) =>
-  fetch(`${API_BASE}/users`, {
-    headers: { Authorization: `Bearer ${token}` }
-  }).then(res => res.json());
+  export const getUsers = async (token) => {
+    try {
+      const res = await axios.get('http://localhost:3000/api/users', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return res.data;
+    } catch (err) {
+      if (err.response) {
+        console.error("Failed to get users:", {
+          status: err.response.status,
+          data: err.response.data,
+          headers: err.response.headers
+        });
+      } else {
+        console.error("Failed to get users:", err.message);
+      }
+      
+    }
+  };
+  
 
 export const updateUser = (id, user, token) =>
   fetch(`${API_BASE}/users/${id}`, {
@@ -63,15 +79,15 @@ export const deleteUser = (id, token) =>
     headers: { Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 
-export const addUserToChapter = (userId, chapterId, token) =>
-  fetch(`${API_BASE}/chapters/add-user`, {
+export const addUserToDevice = (userId, deviceId, token) =>
+  fetch(`${API_BASE}/devices/add-user`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ userId, chapterId })
+    body: JSON.stringify({ userId, deviceId })
   }).then(res => res.json());
 
-export const getUsersInChapter = (chapterId, token) =>
-  fetch(`${API_BASE}/chapters/${chapterId}/users`, {
+export const getUsersInDevice = (deviceId, token) =>
+  fetch(`${API_BASE}/devices/${deviceId}/users`, {
     headers: { Authorization: `Bearer ${token}` }
   }).then(res => res.json());
 

@@ -27,7 +27,7 @@ export default function Login({ setToken }) {
       <Card sx={{ minWidth: 350, p: 3, borderRadius: 4, boxShadow: 6 }}>
         <CardContent>
           <Stack spacing={2}>
-            <Typography variant="h4" align="center" fontWeight={800} color="primary">Academia Login</Typography>
+            <Typography variant="h4" align="center" fontWeight={800} color="primary">Eden Kitchen Login</Typography>
             <form onSubmit={handleSubmit}>
               <TextField label="Username" fullWidth margin="normal" value={username} onChange={e => setUsername(e.target.value)} required />
               <TextField label="Password" type="password" fullWidth margin="normal" value={password} onChange={e => setPassword(e.target.value)} required />
