@@ -1,5 +1,5 @@
 // Centralized API utility for backend requests
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'https://eden-backend-mru8.onrender.com/api';
 
 export const login = (username, password) =>
   fetch(`${API_BASE}/login`, {
