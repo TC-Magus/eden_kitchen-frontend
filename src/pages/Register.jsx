@@ -22,7 +22,7 @@ export default function Register() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #a5d6a7 0%, #66bb6a 100%)' }}>
       <Card sx={{ minWidth: 350, p: 3, borderRadius: 4, boxShadow: 6 }}>
         <CardContent>
           <Stack spacing={2}>

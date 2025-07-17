@@ -12,20 +12,29 @@ const ServiceRequest = () => {
   const [loading, setLoading] = useState(false);
   const stove_id = 1; // replace with real stove_id later
 
+  const user_id = 1; // Replace with actual user logic later
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await sendServiceRequest({ stove_id, request_type: requestType, description });
+      await sendServiceRequest({
+        stove_id,
+        user_id,
+        type: requestType,
+        description
+      });
       setSuccess(true);
       setRequestType('');
       setDescription('');
     } catch (err) {
       alert('Failed to submit request.');
+      console.error(err?.response?.data || err.message);
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <Card sx={{ borderRadius: 3, boxShadow: 3, mt: 4 }}>

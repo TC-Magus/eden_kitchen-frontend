@@ -4,6 +4,8 @@ import GroupIcon from '@mui/icons-material/Group';
 import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation } from 'react-router-dom';
+import edenLogo from '../assets/logo.png'; // adjust path as needed
+
 
 const drawerWidth = 220;
 
@@ -31,42 +33,54 @@ export default function ModernLayout({ children, onLogout, user }) {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', background: 'background.default' }}>
       <Drawer
-        variant="permanent"
+  variant="permanent"
+  sx={{
+    width: drawerWidth,
+    flexShrink: 0,
+    [`& .MuiDrawer-paper`]: {
+      width: drawerWidth,
+      boxSizing: 'border-box',
+      background: '#1b4332', // Eden dark green
+      color: '#fff',
+      border: 'none',
+    },
+  }}
+>
+  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 4 }}>
+    <Avatar src={edenLogo} sx={{ width: 80, height: 80, mb: 2 }} />
+    <Typography variant="h6" fontWeight={700}>{displayName}</Typography>
+    <Typography variant="body2" color="rgba(255,255,255,0.7)">{displayEmail}</Typography>
+  </Box>
+  <Divider sx={{ bgcolor: 'rgba(255,255,255,0.12)' }} />
+  <List>
+    {navItems.map(item => (
+      <ListItem
+        button
+        key={item.text}
+        component={Link}
+        to={item.path}
+        selected={location.pathname === item.path}
         sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-            background: '#222b36',
-            color: '#fff',
-            border: 'none',
+          borderRadius: 2,
+          my: 1,
+          mx: 2,
+          background: location.pathname === item.path
+            ? 'rgba(129, 199, 132, 0.2)'  // Selected
+            : 'none',
+          '&:hover': {
+            background: 'rgba(129, 199, 132, 0.1)', // Hover
           },
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 4 }}>
-          <Avatar {...getAvatarProps(displayName)} sx={{ width: 64, height: 64, mb: 2, ...getAvatarProps(displayName).sx }} />
-          <Typography variant="h6" fontWeight={700}>{displayName}</Typography>
-          <Typography variant="body2" color="rgba(255,255,255,0.7)">{displayEmail}</Typography>
-        </Box>
-        <Divider sx={{ bgcolor: 'rgba(255,255,255,0.12)' }} />
-        <List>
-          {navItems.map(item => (
-            <ListItem button key={item.text} component={Link} to={item.path} selected={location.pathname === item.path} sx={{
-              borderRadius: 2,
-              my: 1,
-              mx: 2,
-              background: location.pathname === item.path ? 'rgba(25, 118, 210, 0.15)' : 'none',
-              '&:hover': { background: 'rgba(25, 118, 210, 0.08)' },
-            }}>
-              <ListItemIcon sx={{ color: '#fff' }}>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
-          ))}
-        </List>
+        <ListItemIcon sx={{ color: '#fff' }}>{item.icon}</ListItemIcon>
+        <ListItemText primary={item.text} />
+      </ListItem>
+    ))}
+  </List>
+
         <Box flexGrow={1} />
         <List>
-          <ListItem button onClick={onLogout} sx={{ borderRadius: 2, mx: 2, mb: 2, '&:hover': { background: 'rgba(25, 118, 210, 0.08)' } }}>
+          <ListItem button onClick={onLogout} sx={{ borderRadius: 2, mx: 2, mb: 2, '&:hover': { background: 'rgba(129, 199, 132, 0.1)' } }}>
             <ListItemIcon sx={{ color: '#fff' }}><LogoutIcon /></ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>

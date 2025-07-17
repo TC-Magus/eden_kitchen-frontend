@@ -1,46 +1,109 @@
-import { Typography, Box, Card, CardContent, Grid, Avatar, Stack } from '@mui/material';
+import {
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Avatar,
+  Stack
+} from '@mui/material';
 import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import GroupIcon from '@mui/icons-material/Group';
+
 import FuelMode from '../components/FuelMode';
 import Battery from '../components/Battery';
 import Temperature from '../components/Temperature';
 import ModeHistory from '../components/ModeHistory';
 import ServiceRequest from '../components/ServiceRequest';
+import Alerts from '../components/Alerts';
+import SpecialOffer from '../components/SpecialOffer';
+import UsageChart from '../components/UsageChart';
 
+function SystemStatus() {
+  return (
+    <Card sx={{ borderRadius: 3, boxShadow: 2 }}>
+      <CardContent>
+        <Typography variant="h6" fontWeight={700} gutterBottom>
+          System Status
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          All devices are operating normally. Last sync: 5 mins ago.
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function Dashboard() {
-  // Example stats (replace with real data if available)
   const stats = [
-    { label: 'Devices', value: 8, icon: <DevicesOtherIcon fontSize="large" color="primary" /> },
-    { label: 'Users', value: 24, icon: <GroupIcon fontSize="large" color="secondary" /> },
+    {
+      label: 'Devices',
+      value: 2,
+      icon: <DevicesOtherIcon fontSize="large" color="primary" />
+    },
+    {
+      label: 'Users',
+      value: 5,
+      icon: <GroupIcon fontSize="large" color="secondary" />
+    }
   ];
 
   return (
     <Box>
-      {/* Existing welcome card */}
-      <Card sx={{ mb: 4, borderRadius: 3, boxShadow: 3, background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
-        <CardContent>
-          <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={2}>
-            <Avatar sx={{ width: 72, height: 72, bgcolor: '#fff', color: '#667eea', fontWeight: 700, fontSize: 32 }}>A</Avatar>
-            <Box>
-              <Typography variant="h4" fontWeight={800}>Welcome, Admin!</Typography>
-              <Typography variant="body1" sx={{ opacity: 0.9 }}>Manage your devices and users with ease.</Typography>
-            </Box>
-          </Stack>
-        </CardContent>
-      </Card>
-  
-      {/* Existing stats grid */}
       <Grid container spacing={3}>
+        <Grid item xs={12} sm={6} md={6}>
+          <Card
+            sx={{
+              borderRadius: 3,
+              boxShadow: 3,
+              background: 'linear-gradient(to right, #66bb6a, #a5d6a7)',
+              color: '#fff'
+            }}
+          >
+            <CardContent>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                alignItems="center"
+                spacing={2}
+              >
+                <Avatar
+                  sx={{
+                    width: 72,
+                    height: 72,
+                    bgcolor: '#fff',
+                    color: '#667eea',
+                    fontWeight: 700,
+                    fontSize: 32
+                  }}
+                >
+                  E
+                </Avatar>
+                <Box>
+                  <Typography variant="h4" fontWeight={800}>
+                    Welcome, Eden Master!
+                  </Typography>
+                  <Typography variant="body1" sx={{ opacity: 0.9 }}>
+                    Manage your devices and users with ease.
+                  </Typography>
+                </Box>
+              </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+
         {stats.map(stat => (
-          <Grid item xs={12} sm={6} md={4} key={stat.label}>
+          <Grid item xs={6} sm={3} md={3} key={stat.label}>
             <Card sx={{ borderRadius: 3, boxShadow: 2, p: 2 }}>
               <CardContent>
                 <Stack direction="row" alignItems="center" spacing={2}>
                   {stat.icon}
                   <Box>
-                    <Typography variant="h5" fontWeight={700}>{stat.value}</Typography>
-                    <Typography color="text.secondary">{stat.label}</Typography>
+                    <Typography variant="h5" fontWeight={700}>
+                      {stat.value}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      {stat.label}
+                    </Typography>
                   </Box>
                 </Stack>
               </CardContent>
@@ -49,27 +112,61 @@ export default function Dashboard() {
         ))}
       </Grid>
 
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={6}>
-          <Battery />
+      {/* System Health */}
+      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
+        System Health
+      </Typography>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <Stack spacing={3}>
+            <Battery />
+            <Temperature />
+          </Stack>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Temperature />
+        <Grid item xs={12} sm={6}>
+          <Alerts />
         </Grid>
       </Grid>
-  
-      {/* 🔥 NEW: Fuel Mode Component */}
-      <Box mt={4}>
-        <FuelMode />
-        <Box mt={4}>
-          <ModeHistory />
-        </Box>
-      </Box> 
-      <Box mt={4}>
-        <ServiceRequest />
-      </Box>
+
+      {/* Fuel Control + Mode History */}
+      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
+        Fuel Monitoring & History
+      </Typography>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Stack spacing={3}>
+            <FuelMode />
+            <ModeHistory />
+          </Stack>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box sx={{ mt: { xs: 0, md: -2 } }}>
+            <UsageChart />
+          </Box>
+        </Grid>
+      </Grid>
+
+      {/* Support & Engagement */}
+      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
+        Support & Engagement
+      </Typography>
+
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        {/* Left Column: ServiceRequest */}
+        <Grid item xs={12} md={6}>
+          <ServiceRequest />
+        </Grid>
+
+        {/* Right Column: Stack of SpecialOffer + SystemStatus */}
+        <Grid item xs={12} md={6}>
+          <Stack spacing={3} sx={{ mt: { xs: 0, md: 3 } }}>
+            <SpecialOffer />
+            <SystemStatus />
+          </Stack>
+        </Grid>
+      </Grid>
     </Box>
-    
   );
-  
 }
