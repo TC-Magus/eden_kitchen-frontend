@@ -47,7 +47,7 @@ export const deleteDevice = (id, token) =>
 
   export const getUsers = async (token) => {
     try {
-      const res = await axios.get('http://localhost:3000/api/users', {
+      const res = await axios.get('https://eden-backend-mru8.onrender.com/api/users', {
         headers: { Authorization: `Bearer ${token}` }
       });
       return res.data;
@@ -94,7 +94,7 @@ export const getUsersInDevice = (deviceId, token) =>
 // src/utils/api.js
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://eden-backend-mru8.onrender.com/api';
 
 export const getModeHistory = async (stove_id) => {
   try {
