@@ -15,7 +15,7 @@ export default function SpecialOffer() {
             size="small"
             variant="outlined"
             color="primary"
-            href="http://127.0.0.1:5500/index.html"
+            href="https://eden-kitchen.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
           >
