@@ -31,7 +31,19 @@ export default function ModernLayout({ children, onLogout, user }) {
   const displayName = user?.name || 'Eden Kitchen';
   const displayEmail = user?.email || 'admin@edenkitchen.com';
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', background: 'background.default' }}>
+    <Box
+  sx={{
+    display: 'flex',
+    minHeight: '100vh',
+    backgroundImage: `url(${edenLogo})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: '30%',
+    backgroundAttachment: 'fixed',
+    opacity: 0.025, // clean watermark effect
+  }}
+>
+
       <Drawer
   variant="permanent"
   sx={{
