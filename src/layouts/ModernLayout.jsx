@@ -5,7 +5,7 @@ import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation } from 'react-router-dom';
 import edenLogo from '../assets/logo.png'; // adjust path as needed
-
+import '../App.css'; // or wherever the watermark class is
 
 const drawerWidth = 220;
 
@@ -31,19 +31,7 @@ export default function ModernLayout({ children, onLogout, user }) {
   const displayName = user?.name || 'Eden Kitchen';
   const displayEmail = user?.email || 'admin@edenkitchen.com';
   return (
-    <Box
-  sx={{
-    display: 'flex',
-    minHeight: '100vh',
-    backgroundImage: `url(${edenLogo})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: '30%',
-    backgroundAttachment: 'fixed',
-    opacity: 0.025, // clean watermark effect
-  }}
->
-
+    <Box className="watermark-wrapper" sx={{ display: 'flex', minHeight: '100vh' }}>
       <Drawer
   variant="permanent"
   sx={{
@@ -98,7 +86,17 @@ export default function ModernLayout({ children, onLogout, user }) {
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, sm: 4 }, minHeight: '100vh', display: 'flex', flexDirection: 'column', maxWidth: '100vw' }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: { xs: 2, sm: 4 },
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          maxWidth: '100vw'
+        }}
+      >
         {children}
         <Box sx={{ mt: 'auto', textAlign: 'center', py: 2, color: 'rgba(0,0,0,0.4)' }}>
           © {new Date().getFullYear()} Eden Kitchen Platform
