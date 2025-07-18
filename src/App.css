@@ -69,13 +69,14 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('./assets/logo.png');
+  background-image: url('/logo.png'); /* ✅ assumes logo is in public/logo.png */
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30%;
   background-attachment: fixed;
-  opacity: 0.025; /* watermark opacity */
-  z-index: -1; /* place behind everything */
+  opacity: 0.025;
+  z-index: -1;
   pointer-events: none;
 }
+
 
