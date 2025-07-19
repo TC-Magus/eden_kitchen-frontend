@@ -12,15 +12,23 @@ export default function Login({ setToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await login(username, password);
+  
     if (data.token) {
       setToken(data.token);
       localStorage.setItem('token', data.token);
+  
+      // ✅ Save the user object
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
+  
       setSnackbar({ open: true, message: 'Login successful!' });
       navigate('/dashboard');
     } else {
       setSnackbar({ open: true, message: data.error || 'Login failed' });
     }
   };
+  
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #a5d6a7 0%, #66bb6a 100%)'}}>

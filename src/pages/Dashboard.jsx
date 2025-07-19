@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import GroupIcon from '@mui/icons-material/Group';
+import { useEffect, useState } from 'react';
 
 import FuelMode from '../components/FuelMode';
 import Battery from '../components/Battery';
@@ -34,7 +35,16 @@ function SystemStatus() {
   );
 }
 
-export default function Dashboard() {
+export default function Dashboard({ user }) {
+  const [greeting, setGreeting] = useState('');
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting('Good morning');
+    else if (hour < 18) setGreeting('Good afternoon');
+    else setGreeting('Good evening');
+  }, []);
+  
   const stats = [
     {
       label: 'Devices',
@@ -79,8 +89,8 @@ export default function Dashboard() {
                   E
                 </Avatar>
                 <Box>
-                  <Typography variant="h4" fontWeight={800}>
-                    Welcome, Eden Master!
+                  <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>
+                    {greeting}, {user?.name?.split(' ')[0] || 'User'}!
                   </Typography>
                   <Typography variant="body1" sx={{ opacity: 0.9 }}>
                     Manage your devices and users with ease.

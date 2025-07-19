@@ -9,11 +9,16 @@ import Users from './pages/Users';
 
 export default function AppRouter() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+
 
   const handleLogout = () => {
     setToken('');
+    setUser(null); // 👈 add this
     localStorage.removeItem('token');
+    localStorage.removeItem('user'); // 👈 add this
   };
+  
 
   return (
     <Router>
@@ -23,8 +28,8 @@ export default function AppRouter() {
         <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
         <Route path="/dashboard" element={
           token ? (
-            <ModernLayout onLogout={handleLogout}>
-              <Dashboard />
+            <ModernLayout onLogout={handleLogout} user={user}>
+              <Dashboard user={user} />
             </ModernLayout>
           ) : <Navigate to="/login" />
         } />
