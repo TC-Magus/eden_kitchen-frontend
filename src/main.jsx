@@ -6,26 +6,21 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
-    primary: {
-      main: '#4CAF50',       // Eden green
-      contrastText: '#ffffff',
-    },
-    secondary: {
-      main: '#FF9800',       // Orange accent
-      contrastText: '#ffffff',
-    },
+    mode: 'dark',
     background: {
-      default: '#f2f7f4',    // Soft mint background
-      paper: '#ffffff',      // Card/panel background
+      default: '#1A1334',
+      paper: '#262038',
+    },
+    primary: {
+      main: '#ffffff',
     },
     text: {
-      primary: '#1B1B1B',
-      secondary: '#4f4f4f',
+      primary: '#ffffff',
+      secondary: 'rgba(255,255,255,0.7)',
     },
   },
   typography: {
-    fontFamily: 'Inter, Roboto, Arial, sans-serif',
+    fontFamily: 'Poppins, Roboto, Arial, sans-serif',
     h4: { fontWeight: 700 },
     h6: { fontWeight: 600 },
     button: {
@@ -34,20 +29,13 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 16,
+    borderRadius: 20,
   },
   components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 12,
-        },
-      },
-    },
     MuiPaper: {
       styleOverrides: {
         root: {
-          boxShadow: '0px 4px 12px rgba(0,0,0,0.05)',
+          backgroundColor: '#262038',
         },
       },
     },

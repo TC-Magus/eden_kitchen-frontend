@@ -20,19 +20,8 @@ import Alerts from '../components/Alerts';
 import SpecialOffer from '../components/SpecialOffer';
 import UsageChart from '../components/UsageChart';
 
-function SystemStatus() {
-  return (
-    <Card sx={{ borderRadius: 3, boxShadow: 2 }}>
-      <CardContent>
-        <Typography variant="h6" fontWeight={700} gutterBottom>
-          System Status
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          All devices are operating normally. Last sync: 5 mins ago.
-        </Typography>
-      </CardContent>
-    </Card>
-  );
+function SectionTitle({ children }) {
+  return <Typography className="section-title">{children}</Typography>;
 }
 
 export default function Dashboard({ user }) {
@@ -40,11 +29,11 @@ export default function Dashboard({ user }) {
 
   useEffect(() => {
     const hour = new Date().getHours();
-    if (hour < 12) setGreeting('Good morning');
-    else if (hour < 18) setGreeting('Good afternoon');
-    else setGreeting('Good evening');
+    setGreeting(
+      hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
+    );
   }, []);
-  
+
   const stats = [
     {
       label: 'Devices',
@@ -60,120 +49,79 @@ export default function Dashboard({ user }) {
 
   return (
     <Box>
+      {/* Greeting */}
+      <Box className="dark-card" sx={{ mb: 3 }}>
+        <Typography variant="h4" fontWeight={700}>
+          {greeting}, {user?.name?.split(' ')[0] || 'User'}!
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Welcome back to your dashboard.
+        </Typography>
+      </Box>
+
+      {/* Stats Cards */}
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={6}>
-          <Card
-            sx={{
-              borderRadius: 3,
-              boxShadow: 3,
-              background: 'linear-gradient(to right, #66bb6a, #a5d6a7)',
-              color: '#fff'
-            }}
-          >
-            <CardContent>
-              <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                alignItems="center"
-                spacing={2}
-              >
-                <Avatar
-                  sx={{
-                    width: 72,
-                    height: 72,
-                    bgcolor: '#fff',
-                    color: '#667eea',
-                    fontWeight: 700,
-                    fontSize: 32
-                  }}
-                >
-                  E
-                </Avatar>
+        {stats.map(stat => (
+          <Grid item xs={6} md={3} key={stat.label}>
+            <Box className="dark-card">
+              <Stack direction="row" alignItems="center" spacing={2}>
+                {stat.icon}
                 <Box>
-                  <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>
-                    {greeting}, {user?.name?.split(' ')[0] || 'User'}!
-                  </Typography>
-                  <Typography variant="body1" sx={{ opacity: 0.9 }}>
-                    Manage your devices and users with ease.
+                  <Typography variant="h5">{stat.value}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {stat.label}
                   </Typography>
                 </Box>
               </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {stats.map(stat => (
-          <Grid item xs={6} sm={3} md={3} key={stat.label}>
-            <Card sx={{ borderRadius: 3, boxShadow: 2, p: 2 }}>
-              <CardContent>
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  {stat.icon}
-                  <Box>
-                    <Typography variant="h5" fontWeight={700}>
-                      {stat.value}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      {stat.label}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </CardContent>
-            </Card>
+            </Box>
           </Grid>
         ))}
       </Grid>
 
       {/* System Health */}
-      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
-        System Health
-      </Typography>
-
+      <SectionTitle>System Health</SectionTitle>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <Stack spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Stack spacing={2}>
             <Battery />
             <Temperature />
           </Stack>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} md={6}>
           <Alerts />
         </Grid>
       </Grid>
 
-      {/* Fuel Control + Mode History */}
-      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
-        Fuel Monitoring & History
-      </Typography>
-
+      {/* Fuel + Usage */}
+      <SectionTitle>Fuel Monitoring & History</SectionTitle>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Stack spacing={3}>
+          <Stack spacing={2}>
             <FuelMode />
             <ModeHistory />
           </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Box sx={{ mt: { xs: 0, md: -2 } }}>
-            <UsageChart />
-          </Box>
+          <UsageChart />
         </Grid>
       </Grid>
 
-      {/* Support & Engagement */}
-      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
-        Support & Engagement
-      </Typography>
-
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Left Column: ServiceRequest */}
+      {/* Support */}
+      <SectionTitle>Support & Offers</SectionTitle>
+      <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <ServiceRequest />
         </Grid>
-
-        {/* Right Column: Stack of SpecialOffer + SystemStatus */}
         <Grid item xs={12} md={6}>
-          <Stack spacing={3} sx={{ mt: { xs: 0, md: 3 } }}>
+          <Stack spacing={2}>
             <SpecialOffer />
-            <SystemStatus />
+            <Card className="dark-card">
+              <CardContent>
+                <Typography variant="body2">
+                  System operating normally. Last sync: 5 mins ago.
+                </Typography>
+              </CardContent>
+            </Card>
           </Stack>
         </Grid>
       </Grid>
