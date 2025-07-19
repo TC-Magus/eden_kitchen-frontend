@@ -34,7 +34,8 @@ function getAvatarProps(name) {
 export default function ModernLayout({ children, onLogout, user }) {
   const location = useLocation();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery('(max-width:900px)');
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const drawerContent = (
