@@ -9,11 +9,7 @@ import Users from './pages/Users';
 
 export default function AppRouter() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem('user');
-    return stored ? JSON.parse(stored) : null;
-  });
-  
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 
 
   const handleLogout = () => {
