@@ -180,3 +180,5 @@ export default function Dashboard({ user }) {
     </Box>
   );
 }
+
+console.log("user in Dashboard:", user);
