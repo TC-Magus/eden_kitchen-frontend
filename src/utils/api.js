@@ -6,7 +6,11 @@ export const login = (username, password) =>
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })
-  }).then(res => res.json());
+  }).then(res => res.json()).then(data => {
+    console.log("Login response:", data);
+    return data;
+  });
+  
 
 export const register = (username, password, email) =>
   fetch(`${API_BASE}/register`, {
