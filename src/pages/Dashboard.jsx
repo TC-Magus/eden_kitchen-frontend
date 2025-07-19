@@ -19,8 +19,6 @@ import ServiceRequest from '../components/ServiceRequest';
 import Alerts from '../components/Alerts';
 import SpecialOffer from '../components/SpecialOffer';
 import UsageChart from '../components/UsageChart';
-console.log("user in Dashboard:", user);
-
 
 function SystemStatus() {
   return (
