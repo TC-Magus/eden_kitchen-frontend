@@ -102,7 +102,7 @@ export default function ModernLayout({ children, onLogout, user }) {
       >
         {drawerContent}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, sm: 4 }, maxWidth: '100vw' }}>
+      <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, sm: 4 }, maxWidth: '100vw', zIndex: 1 }}>
         {children}
       </Box>
     </Box>
