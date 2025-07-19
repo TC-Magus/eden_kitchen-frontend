@@ -16,7 +16,7 @@ export default function Login({ setToken }) {
     if (data.token) {
       setToken(data.token);
       localStorage.setItem('token', data.token);
-  
+      
       // ✅ Save the user object
       if (data.user) {
         localStorage.setItem('user', JSON.stringify(data.user));
