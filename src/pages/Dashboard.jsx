@@ -17,8 +17,7 @@ import ServiceRequest from '../components/ServiceRequest';
 import SpecialOffer from '../components/SpecialOffer';
 import Alerts from '../components/Alerts';
 import UsageChart from '../components/UsageChart';
-console.log('Devices:', devices);
-console.log('Users:', users);
+
 export default function Dashboard({ user, devices, users }) {
   const [greeting, setGreeting] = useState('');
 

@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Devices from './pages/Devices';
 import Users from './pages/Users';
+import DashboardContainer from './pages/DashboardContainer';
+
 
 export default function AppRouter() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -29,7 +31,8 @@ export default function AppRouter() {
         <Route path="/dashboard" element={
           token ? (
             <ModernLayout onLogout={handleLogout} user={user}>
-              <Dashboard user={user} />
+              <DashboardContainer user={user} token={token} />
+
             </ModernLayout>
           ) : <Navigate to="/login" />
         } />
