@@ -13,7 +13,7 @@ export default function Login({ setToken, setUser }) {
     e.preventDefault();
     const data = await login(username, password);
   
-    iif (data.token) {
+    if (data.token) {
       setToken(data.token);
       localStorage.setItem('token', data.token);
     
