@@ -27,7 +27,9 @@ export default function Dashboard({ user, devices = [], users = [] }) {
     else if (hour < 18) setGreeting('Good afternoon');
     else setGreeting('Good evening');
   }, []);
-
+  useEffect(() => {
+    console.log("User in Dashboard:", user);
+  }, []);
   const deviceCount = devices.length;
   const userCount = users.length;
 
@@ -153,6 +155,3 @@ export default function Dashboard({ user, devices = [], users = [] }) {
     </Box>
   );
 }
-useEffect(() => {
-  console.log("User prop in Dashboard:", user);
-}, []);
