@@ -153,3 +153,6 @@ export default function Dashboard({ user, devices = [], users = [] }) {
     </Box>
   );
 }
+useEffect(() => {
+  console.log("User prop in Dashboard:", user);
+}, []);
