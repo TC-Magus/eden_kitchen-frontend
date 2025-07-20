@@ -11,7 +11,10 @@ import DashboardContainer from './pages/DashboardContainer';
 
 export default function AppRouter() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user');
+    return saved ? JSON.parse(saved) : null;
+  });
 
 
   const handleLogout = () => {
