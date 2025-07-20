@@ -2,9 +2,9 @@ import {
   Typography,
   Box,
   Grid,
-  Avatar,
   Card,
   CardContent,
+  Avatar,
   Stack
 } from '@mui/material';
 
@@ -18,7 +18,7 @@ import SpecialOffer from '../components/SpecialOffer';
 import Alerts from '../components/Alerts';
 import UsageChart from '../components/UsageChart';
 
-export default function Dashboard({ user, devices, users }) {
+export default function Dashboard({ user, devices = [], users = [] }) {
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
@@ -28,95 +28,39 @@ export default function Dashboard({ user, devices, users }) {
     else setGreeting('Good evening');
   }, []);
 
-  const deviceCount = devices?.length || 0;
-  const userCount = users?.length || 0;
+  const deviceCount = devices.length;
+  const userCount = users.length;
 
-  const leftDevice = devices[0];
-  const rightDevice = devices[1];
+  const getWelcomeAlignment = () => {
+    if (deviceCount === 2) return 'center';
+    return 'flex-start';
+  };
 
-  const renderDeviceColumn = (device) => (
-    <Grid container spacing={3}>
-      {/* System Health Row */}
-      {/* 🔋🌡️ System Health — Row for Two Devices */}
-<Grid container spacing={4} sx={{ mb: 4 }}>
-  {/* Left Device System Health */}
-  <Grid item xs={12} md={6}>
+  const renderDeviceSection = (device) => (
     <Grid container spacing={2}>
-      {/* Battery + Temperature */}
+      {/* 🔋🌡️ System Health */}
       <Grid item xs={6}>
         <Stack spacing={2}>
-          <Battery deviceId={devices[0].id} />
-          <Temperature deviceId={devices[0].id} />
+          <Battery deviceId={device.id} />
+          <Temperature deviceId={device.id} />
         </Stack>
       </Grid>
-
-      {/* Alerts */}
       <Grid item xs={6}>
-        <Alerts deviceId={devices[0].id} />
+        <Alerts deviceId={device.id} />
       </Grid>
-    </Grid>
-  </Grid>
 
-  {/* Right Device System Health */}
-  <Grid item xs={12} md={6}>
-    <Grid container spacing={2}>
-      {/* Battery + Temperature */}
+      {/* ⛽ Fuel Monitoring & History */}
       <Grid item xs={6}>
         <Stack spacing={2}>
-          <Battery deviceId={devices[1].id} />
-          <Temperature deviceId={devices[1].id} />
+          <FuelMode deviceId={device.id} />
+          <ModeHistory deviceId={device.id} />
         </Stack>
       </Grid>
-
-      {/* Alerts */}
       <Grid item xs={6}>
-        <Alerts deviceId={devices[1].id} />
-      </Grid>
-    </Grid>
-  </Grid>
-</Grid>
-
-      {/* Fuel Monitoring Row */}
-      {/* ⛽ Fuel Monitoring & History — Row */}
-<Grid container spacing={4} sx={{ mb: 4 }}>
-  {/* Left Device */}
-  <Grid item xs={12} md={6}>
-    <Grid container spacing={2}>
-      {/* FuelMode + ModeHistory */}
-      <Grid item xs={6}>
-        <Stack spacing={2}>
-          <FuelMode deviceId={devices[0].id} />
-          <ModeHistory deviceId={devices[0].id} />
-        </Stack>
+        <UsageChart deviceId={device.id} />
       </Grid>
 
-      {/* UsageChart */}
-      <Grid item xs={6}>
-        <UsageChart deviceId={devices[0].id} />
-      </Grid>
-    </Grid>
-  </Grid>
-
-  {/* Right Device */}
-  <Grid item xs={12} md={6}>
-    <Grid container spacing={2}>
-      {/* FuelMode + ModeHistory */}
-      <Grid item xs={6}>
-        <Stack spacing={2}>
-          <FuelMode deviceId={devices[1].id} />
-          <ModeHistory deviceId={devices[1].id} />
-        </Stack>
-      </Grid>
-
-      {/* UsageChart */}
-      <Grid item xs={6}>
-        <UsageChart deviceId={devices[1].id} />
-      </Grid>
-    </Grid>
-  </Grid>
-</Grid>
-
-      {/* Support Row */}
+      {/* 💌 Support & Engagement */}
       <Grid item xs={6}>
         <ServiceRequest deviceId={device.id} />
       </Grid>
@@ -128,8 +72,8 @@ export default function Dashboard({ user, devices, users }) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      {/* Welcome Card */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+      {/* ✅ Welcome Card */}
+      <Box sx={{ display: 'flex', justifyContent: getWelcomeAlignment(), mb: 4 }}>
         <Card
           sx={{
             borderRadius: 3,
@@ -159,7 +103,7 @@ export default function Dashboard({ user, devices, users }) {
                   {greeting}, {user?.name?.split(' ')[0] || 'User'}!
                 </Typography>
                 <Typography variant="body1">
-                  You have {deviceCount} devices and {userCount} users connected.
+                  You have {deviceCount} device{deviceCount !== 1 ? 's' : ''} and {userCount} user{userCount !== 1 ? 's' : ''} connected.
                 </Typography>
                 <Typography variant="body2" sx={{ mt: 1 }}>
                   All devices are operating normally.
@@ -170,23 +114,40 @@ export default function Dashboard({ user, devices, users }) {
         </Card>
       </Box>
 
-      {/* Two Devices Layout */}
-      {deviceCount === 2 ? (
-        <Grid container spacing={4}>
-          {/* Left Device */}
-          <Grid item xs={12} md={6}>
-            {renderDeviceColumn(leftDevice)}
-          </Grid>
-
-          {/* Right Device */}
-          <Grid item xs={12} md={6}>
-            {renderDeviceColumn(rightDevice)}
-          </Grid>
-        </Grid>
-      ) : (
-        <Typography color="text.secondary">
-          This layout supports exactly two devices. Additional layout rules for other counts coming soon.
+      {/* ❗ Fallback UI */}
+      {deviceCount === 0 && (
+        <Typography variant="body1" color="text.secondary">
+          No devices are currently connected. Please add one to get started.
         </Typography>
+      )}
+
+      {/* 🔹 Adaptive Layout for Devices */}
+      {deviceCount > 0 && (
+        <>
+          {/* Render in pairs */}
+          {Array.from({ length: Math.ceil(deviceCount / 2) }, (_, rowIndex) => {
+            const leftDevice = devices[rowIndex * 2];
+            const rightDevice = devices[rowIndex * 2 + 1];
+
+            return (
+              <Grid container spacing={4} key={rowIndex} sx={{ mb: 4 }}>
+                {/* Left Device */}
+                {leftDevice && (
+                  <Grid item xs={12} md={deviceCount === 1 ? 12 : 6}>
+                    {renderDeviceSection(leftDevice)}
+                  </Grid>
+                )}
+
+                {/* Right Device */}
+                {rightDevice && (
+                  <Grid item xs={12} md={6}>
+                    {renderDeviceSection(rightDevice)}
+                  </Grid>
+                )}
+              </Grid>
+            );
+          })}
+        </>
       )}
     </Box>
   );
