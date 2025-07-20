@@ -18,8 +18,8 @@ export default function Login({ setToken, setUser }) {
       setToken(data.token);
       localStorage.setItem('token', data.token);
     
-      const decoded = jwtDecode(data.token); // ✅ extract payload from token
-    
+      // ✅ Decode user info from token
+      const decoded = jwtDecode(data.token);
       const extractedUser = {
         id: decoded.id,
         username: decoded.username
