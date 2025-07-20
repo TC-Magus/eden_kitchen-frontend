@@ -100,7 +100,8 @@ export default function Dashboard({ user, devices = [], users = [] }) {
               </Avatar>
               <Box>
                 <Typography variant="h5" fontWeight={800}>
-                  {greeting}, {user?.name?.split(' ')[0] || 'User'}!
+                {greeting}, {user?.name || user?.username || 'User'}!
+
                 </Typography>
                 <Typography variant="body1">
                   You have {deviceCount} device{deviceCount !== 1 ? 's' : ''} and {userCount} user{userCount !== 1 ? 's' : ''} connected.
