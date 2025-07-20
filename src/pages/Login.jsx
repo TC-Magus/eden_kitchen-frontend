@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TextField, Button, Typography, Box, Snackbar, Card, CardContent, Stack } from '@mui/material';
 import { login } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 export default function Login({ setToken, setUser }) {
   const [username, setUsername] = useState('');
@@ -17,17 +18,11 @@ export default function Login({ setToken, setUser }) {
       setToken(data.token);
       localStorage.setItem('token', data.token);
     
-      // ❌ This fails if there's no `user`
-      // if (data.user) {
-      //   localStorage.setItem('user', JSON.stringify(data.user));
-      //   setUser(data.user);
-      // }
+      const decoded = jwtDecode(data.token); // ✅ extract payload from token
     
-      // ✅ Instead, store the whole response minus token
       const extractedUser = {
-        id: data.id,
-        username: data.username,
-        email: data.email
+        id: decoded.id,
+        username: decoded.username
       };
     
       localStorage.setItem('user', JSON.stringify(extractedUser));
