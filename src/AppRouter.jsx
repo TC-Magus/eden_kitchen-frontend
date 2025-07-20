@@ -3,10 +3,10 @@ import { useState } from 'react';
 import ModernLayout from './layouts/ModernLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
-
+import Dashboard from './pages/Dashboard';
 import Devices from './pages/Devices';
 import Users from './pages/Users';
-import DashboardContainer from './pages/DashboardContainer';
+import DashboardContainer from './components/DashboardContainer';
 
 
 export default function AppRouter() {
