@@ -50,7 +50,7 @@ export default function Dashboard({ user }) {
   useEffect(() => {
     const fetchDevices = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/devices`);
+        const res = await axios.get(`${import.meta.env.API_BASE_URL}/devices`);
         setDevices(res.data);
       } catch (err) {
         console.error('Error fetching devices:', err);
