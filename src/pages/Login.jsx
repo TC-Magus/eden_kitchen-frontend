@@ -3,7 +3,7 @@ import { TextField, Button, Typography, Box, Snackbar, Card, CardContent, Stack 
 import { login } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login({ setToken }) {
+export default function Login({ setToken, setUser }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [snackbar, setSnackbar] = useState({ open: false, message: '' });
@@ -20,6 +20,7 @@ export default function Login({ setToken }) {
       // ✅ Save the user object
       if (data.user) {
         localStorage.setItem('user', JSON.stringify(data.user));
+        setUser(data.user); // ✅ Add this after successful login
       }
   
       setSnackbar({ open: true, message: 'Login successful!' });

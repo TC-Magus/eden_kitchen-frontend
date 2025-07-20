@@ -28,7 +28,7 @@ export default function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login setToken={setToken} />} />
+      <Route path="/login" element={<Login setToken={setToken} setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
         <Route path="/dashboard" element={
