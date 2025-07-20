@@ -77,15 +77,44 @@ export default function Dashboard({ user, devices, users }) {
 </Grid>
 
       {/* Fuel Monitoring Row */}
+      {/* ⛽ Fuel Monitoring & History — Row */}
+<Grid container spacing={4} sx={{ mb: 4 }}>
+  {/* Left Device */}
+  <Grid item xs={12} md={6}>
+    <Grid container spacing={2}>
+      {/* FuelMode + ModeHistory */}
       <Grid item xs={6}>
-        <Stack spacing={3}>
-          <FuelMode deviceId={device.id} />
-          <ModeHistory deviceId={device.id} />
+        <Stack spacing={2}>
+          <FuelMode deviceId={devices[0].id} />
+          <ModeHistory deviceId={devices[0].id} />
         </Stack>
       </Grid>
+
+      {/* UsageChart */}
       <Grid item xs={6}>
-        <UsageChart deviceId={device.id} />
+        <UsageChart deviceId={devices[0].id} />
       </Grid>
+    </Grid>
+  </Grid>
+
+  {/* Right Device */}
+  <Grid item xs={12} md={6}>
+    <Grid container spacing={2}>
+      {/* FuelMode + ModeHistory */}
+      <Grid item xs={6}>
+        <Stack spacing={2}>
+          <FuelMode deviceId={devices[1].id} />
+          <ModeHistory deviceId={devices[1].id} />
+        </Stack>
+      </Grid>
+
+      {/* UsageChart */}
+      <Grid item xs={6}>
+        <UsageChart deviceId={devices[1].id} />
+      </Grid>
+    </Grid>
+  </Grid>
+</Grid>
 
       {/* Support Row */}
       <Grid item xs={6}>
