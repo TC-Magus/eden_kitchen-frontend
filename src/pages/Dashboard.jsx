@@ -100,7 +100,7 @@ export default function Dashboard({ user, devices = [], users = [] }) {
               </Avatar>
               <Box>
                 <Typography variant="h5" fontWeight={800}>
-                {greeting}, {user?.name || user?.username || 'User'}!
+                {greeting}, {user?.username || 'User'}!
 
                 </Typography>
                 <Typography variant="body1">
