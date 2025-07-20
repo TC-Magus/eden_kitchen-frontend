@@ -154,3 +154,5 @@ export default function Dashboard({ user, devices, users }) {
     </Box>
   );
 }
+console.log('Devices:', devices);
+console.log('Users:', users);
