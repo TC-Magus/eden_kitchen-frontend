@@ -37,15 +37,44 @@ export default function Dashboard({ user, devices, users }) {
   const renderDeviceColumn = (device) => (
     <Grid container spacing={3}>
       {/* System Health Row */}
+      {/* 🔋🌡️ System Health — Row for Two Devices */}
+<Grid container spacing={4} sx={{ mb: 4 }}>
+  {/* Left Device System Health */}
+  <Grid item xs={12} md={6}>
+    <Grid container spacing={2}>
+      {/* Battery + Temperature */}
       <Grid item xs={6}>
-        <Stack spacing={3}>
-          <Battery deviceId={device.id} />
-          <Temperature deviceId={device.id} />
+        <Stack spacing={2}>
+          <Battery deviceId={devices[0].id} />
+          <Temperature deviceId={devices[0].id} />
         </Stack>
       </Grid>
+
+      {/* Alerts */}
       <Grid item xs={6}>
-        <Alerts deviceId={device.id} />
+        <Alerts deviceId={devices[0].id} />
       </Grid>
+    </Grid>
+  </Grid>
+
+  {/* Right Device System Health */}
+  <Grid item xs={12} md={6}>
+    <Grid container spacing={2}>
+      {/* Battery + Temperature */}
+      <Grid item xs={6}>
+        <Stack spacing={2}>
+          <Battery deviceId={devices[1].id} />
+          <Temperature deviceId={devices[1].id} />
+        </Stack>
+      </Grid>
+
+      {/* Alerts */}
+      <Grid item xs={6}>
+        <Alerts deviceId={devices[1].id} />
+      </Grid>
+    </Grid>
+  </Grid>
+</Grid>
 
       {/* Fuel Monitoring Row */}
       <Grid item xs={6}>
