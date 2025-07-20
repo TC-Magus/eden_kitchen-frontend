@@ -6,22 +6,23 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
+    background: {
+      default: '#1A1A2E',
+      paper: '#2A2A4A',
+    },
     primary: {
-      main: '#4CAF50',       // Eden green
-      contrastText: '#ffffff',
+      main: '#A080FF',  // Soft lavender
     },
     secondary: {
-      main: '#FF9800',       // Orange accent
-      contrastText: '#ffffff',
+      main: '#6CE986',  // Vibrant green for battery/status
     },
-    background: {
-      default: '#f2f7f4',    // Soft mint background
-      paper: '#ffffff',      // Card/panel background
+    error: {
+      main: '#FF6B6B',  // Alerts
     },
     text: {
-      primary: '#1B1B1B',
-      secondary: '#4f4f4f',
+      primary: '#E0E0E0',
+      secondary: '#B0B0B0',
     },
   },
   typography: {
@@ -47,7 +48,8 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          boxShadow: '0px 4px 12px rgba(0,0,0,0.05)',
+          boxShadow: '0px 4px 12px rgba(0,0,0,0.3)',
+          backgroundImage: 'none',
         },
       },
     },

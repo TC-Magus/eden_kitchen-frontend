@@ -22,13 +22,10 @@ const navItems = [
   { text: 'Users', icon: <GroupIcon />, path: '/users' },
 ];
 
-// Helper to get initials and color
 function getAvatarProps(name) {
-  if (!name) return { children: 'A', sx: { bgcolor: '#1976d2', color: '#fff' } };
+  if (!name) return { children: 'A', sx: { bgcolor: '#A080FF', color: '#fff' } };
   const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-  const colors = ['#1976d2', '#43a047', '#d32f2f', '#fbc02d', '#7b1fa2'];
-  const color = colors[(name.charCodeAt(0) + (name.charCodeAt(1) || 0)) % colors.length];
-  return { children: initials, sx: { bgcolor: color, color: '#fff' } };
+  return { children: initials, sx: { bgcolor: '#4CD9C1', color: '#1A1A2E' } };
 }
 
 export default function ModernLayout({ children, onLogout, user }) {
@@ -38,15 +35,19 @@ export default function ModernLayout({ children, onLogout, user }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen(prev => !prev);
 
-  const displayName = user?.name || 'Eden Kitchen';
+  const displayName = user?.name || 'Eden Master';
   const displayEmail = user?.email || 'admin@edenkitchen.com';
 
   const drawerContent = (
-    <Box>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#1b4332' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 4 }}>
         <Avatar src={edenLogo} sx={{ width: 80, height: 80, mb: 2 }} />
-        <Typography variant="h6" fontWeight={700}>{displayName}</Typography>
-        <Typography variant="body2" color="rgba(255,255,255,0.7)">{displayEmail}</Typography>
+        <Typography variant="h6" fontWeight={700} color="white">
+          {displayName}
+        </Typography>
+        <Typography variant="body2" color="rgba(255,255,255,0.7)">
+          {displayEmail}
+        </Typography>
       </Box>
       <Divider sx={{ bgcolor: 'rgba(255,255,255,0.12)' }} />
       <List>
@@ -57,28 +58,43 @@ export default function ModernLayout({ children, onLogout, user }) {
             component={Link}
             to={item.path}
             selected={location.pathname === item.path}
+            onClick={isMobile ? handleDrawerToggle : undefined}
             sx={{
               borderRadius: 2,
               my: 1,
               mx: 2,
+              color: '#fff',
               background: location.pathname === item.path
-                ? 'rgba(129, 199, 132, 0.2)'
-                : 'none',
+                ? 'rgba(160, 128, 255, 0.25)'
+                : 'transparent',
               '&:hover': {
-                background: 'rgba(129, 199, 132, 0.1)',
+                background: 'rgba(160, 128, 255, 0.15)',
               },
             }}
-            onClick={isMobile ? handleDrawerToggle : undefined}
           >
-            <ListItemIcon sx={{ color: '#fff' }}>{item.icon}</ListItemIcon>
+            <ListItemIcon sx={{ color: '#E0E0E0' }}>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
       </List>
       <Box flexGrow={1} />
       <List>
-        <ListItem button onClick={onLogout} sx={{ borderRadius: 2, mx: 2, mb: 2, '&:hover': { background: 'rgba(129, 199, 132, 0.1)' } }}>
-          <ListItemIcon sx={{ color: '#fff' }}><LogoutIcon /></ListItemIcon>
+        <ListItem
+          button
+          onClick={onLogout}
+          sx={{
+            borderRadius: 2,
+            mx: 2,
+            mb: 2,
+            color: '#fff',
+            '&:hover': {
+              background: 'rgba(255, 107, 107, 0.1)',
+            },
+          }}
+        >
+          <ListItemIcon sx={{ color: '#FF6B6B' }}>
+            <LogoutIcon />
+          </ListItemIcon>
           <ListItemText primary="Logout" />
         </ListItem>
       </List>
@@ -86,18 +102,16 @@ export default function ModernLayout({ children, onLogout, user }) {
   );
 
   return (
-    <Box className="watermark-wrapper" sx={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Hamburger menu icon for mobile */}
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#1A1A2E' }}>
       {isMobile && (
         <IconButton
           onClick={handleDrawerToggle}
           sx={{ position: 'absolute', top: 16, left: 16, zIndex: 1301 }}
         >
-          <MenuIcon sx={{ color: '#1b4332' }} />
+          <MenuIcon sx={{ color: '#E0E0E0' }} />
         </IconButton>
       )}
 
-      {/* Conditional Drawer */}
       {isMobile ? (
         <Drawer
           variant="temporary"
@@ -134,7 +148,6 @@ export default function ModernLayout({ children, onLogout, user }) {
         </Drawer>
       )}
 
-      {/* Main content area */}
       <Box
         component="main"
         sx={{
@@ -143,11 +156,12 @@ export default function ModernLayout({ children, onLogout, user }) {
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
-          maxWidth: '100vw'
+          bgcolor: '#1A1A2E',
+          color: '#E0E0E0',
         }}
       >
         {children}
-        <Box sx={{ mt: 'auto', textAlign: 'center', py: 2, color: 'rgba(0,0,0,0.4)' }}>
+        <Box sx={{ mt: 'auto', textAlign: 'center', py: 2, color: 'rgba(255,255,255,0.2)' }}>
           © {new Date().getFullYear()} Eden Kitchen Platform
         </Box>
       </Box>
