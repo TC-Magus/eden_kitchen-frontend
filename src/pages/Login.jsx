@@ -13,20 +13,28 @@ export default function Login({ setToken, setUser }) {
     e.preventDefault();
     const data = await login(username, password);
   
-    if (data.token) {
+    iif (data.token) {
       setToken(data.token);
       localStorage.setItem('token', data.token);
-  
-      // ✅ Save the user object
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-        setUser(data.user); // ✅ Add this after successful login
-      }
-  
+    
+      // ❌ This fails if there's no `user`
+      // if (data.user) {
+      //   localStorage.setItem('user', JSON.stringify(data.user));
+      //   setUser(data.user);
+      // }
+    
+      // ✅ Instead, store the whole response minus token
+      const extractedUser = {
+        id: data.id,
+        username: data.username,
+        email: data.email
+      };
+    
+      localStorage.setItem('user', JSON.stringify(extractedUser));
+      setUser(extractedUser);
+    
       setSnackbar({ open: true, message: 'Login successful!' });
       navigate('/dashboard');
-    } else {
-      setSnackbar({ open: true, message: data.error || 'Login failed' });
     }
   };
   
