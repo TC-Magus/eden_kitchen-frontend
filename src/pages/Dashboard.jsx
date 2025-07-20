@@ -10,6 +10,7 @@ import {
 import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import GroupIcon from '@mui/icons-material/Group';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import FuelMode from '../components/FuelMode';
 import Battery from '../components/Battery';
@@ -37,6 +38,7 @@ function SystemStatus() {
 
 export default function Dashboard({ user }) {
   const [greeting, setGreeting] = useState('');
+  const [devices, setDevices] = useState([]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -44,11 +46,24 @@ export default function Dashboard({ user }) {
     else if (hour < 18) setGreeting('Good afternoon');
     else setGreeting('Good evening');
   }, []);
-  
+
+  useEffect(() => {
+    const fetchDevices = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/devices`);
+        setDevices(res.data);
+      } catch (err) {
+        console.error('Error fetching devices:', err);
+      }
+    };
+
+    fetchDevices();
+  }, []);
+
   const stats = [
     {
       label: 'Devices',
-      value: 2,
+      value: devices.length,
       icon: <DevicesOtherIcon fontSize="large" color="primary" />
     },
     {
@@ -85,9 +100,7 @@ export default function Dashboard({ user }) {
                     fontWeight: 700,
                     fontSize: 32
                   }}
-                >
-                  
-                </Avatar>
+                ></Avatar>
                 <Box>
                   <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>
                     {greeting}, {user?.name?.split(' ')[0] || 'User'}!
@@ -116,6 +129,50 @@ export default function Dashboard({ user }) {
                     </Typography>
                   </Box>
                 </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* 👇 Device Live Status Cards */}
+      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
+        Device Status Overview
+      </Typography>
+
+      <Grid container spacing={3}>
+        {devices.map(device => (
+          <Grid item xs={12} sm={6} md={4} key={device.id}>
+            <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
+              <CardContent>
+                <Typography variant="h6" fontWeight={700}>
+                  {device.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {device.description}
+                </Typography>
+                <Typography sx={{ mt: 1 }}>
+                  Mode: {device.mode}
+                </Typography>
+                <Typography>
+                  Battery: {device.battery_level}%
+                </Typography>
+                <Typography>
+                  Temperature: {device.temperature}°C
+                </Typography>
+                <Typography>
+                  Fuel Mode: {device.fuel_mode}
+                </Typography>
+                <Typography sx={{ mt: 1, fontWeight: 500 }}>
+                  Alerts:
+                </Typography>
+                {device.alerts.length > 0 ? (
+                  device.alerts.map((a, i) => (
+                    <Typography key={i} color="error">• {a}</Typography>
+                  ))
+                ) : (
+                  <Typography color="text.secondary">No alerts</Typography>
+                )}
               </CardContent>
             </Card>
           </Grid>
