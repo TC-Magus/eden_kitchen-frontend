@@ -7,35 +7,18 @@ import {
   Avatar,
   Stack
 } from '@mui/material';
-import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
-import GroupIcon from '@mui/icons-material/Group';
-import { useEffect, useState } from 'react';
 
-import FuelMode from '../components/FuelMode';
+import { useEffect, useState } from 'react';
 import Battery from '../components/Battery';
 import Temperature from '../components/Temperature';
+import FuelMode from '../components/FuelMode';
 import ModeHistory from '../components/ModeHistory';
 import ServiceRequest from '../components/ServiceRequest';
-import Alerts from '../components/Alerts';
 import SpecialOffer from '../components/SpecialOffer';
+import Alerts from '../components/Alerts';
 import UsageChart from '../components/UsageChart';
 
-function SystemStatus() {
-  return (
-    <Card sx={{ borderRadius: 3, boxShadow: 2 }}>
-      <CardContent>
-        <Typography variant="h6" fontWeight={700} gutterBottom>
-          System Status
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          All devices are operating normally. Last sync: 5 mins ago.
-        </Typography>
-      </CardContent>
-    </Card>
-  );
-}
-
-export default function Dashboard({ user }) {
+export default function Dashboard({ user, devices, users }) {
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
@@ -44,139 +27,130 @@ export default function Dashboard({ user }) {
     else if (hour < 18) setGreeting('Good afternoon');
     else setGreeting('Good evening');
   }, []);
-  
-  const stats = [
-    {
-      label: 'Devices',
-      value: 2,
-      icon: <DevicesOtherIcon fontSize="large" color="primary" />
-    },
-    {
-      label: 'Users',
-      value: 5,
-      icon: <GroupIcon fontSize="large" color="secondary" />
-    }
-  ];
+
+  const deviceCount = devices?.length || 0;
+  const userCount = users?.length || 0;
+
+  const getWelcomeAlignment = () => {
+    if (deviceCount === 2) return 'center';
+    return 'flex-start';
+  };
 
   return (
-    <Box>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={6}>
-          <Card
-            sx={{
-              borderRadius: 3,
-              boxShadow: 3,
-              background: 'linear-gradient(to right, #66bb6a, #a5d6a7)',
-              color: '#fff'
-            }}
-          >
-            <CardContent>
-              <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                alignItems="center"
-                spacing={2}
+    <Box sx={{ width: '100%' }}>
+      {/* ✅ Welcome Card */}
+      <Box sx={{ display: 'flex', justifyContent: getWelcomeAlignment(), mb: 4 }}>
+        <Card
+          sx={{
+            borderRadius: 3,
+            boxShadow: 3,
+            background: 'linear-gradient(to right, #66bb6a, #a5d6a7)',
+            color: '#fff',
+            maxWidth: 480,
+            width: '100%'
+          }}
+        >
+          <CardContent>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Avatar
+                sx={{
+                  width: 72,
+                  height: 72,
+                  bgcolor: '#fff',
+                  color: '#667eea',
+                  fontWeight: 700,
+                  fontSize: 32
+                }}
               >
-                <Avatar
-                  sx={{
-                    width: 72,
-                    height: 72,
-                    bgcolor: '#fff',
-                    color: '#667eea',
-                    fontWeight: 700,
-                    fontSize: 32
-                  }}
-                >
-                  
-                </Avatar>
-                <Box>
-                  <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>
-                    {greeting}, {user?.name?.split(' ')[0] || 'User'}!
+                {user?.name?.[0]?.toUpperCase() || 'U'}
+              </Avatar>
+              <Box>
+                <Typography variant="h5" fontWeight={800}>
+                  {greeting}, {user?.name?.split(' ')[0] || 'User'}!
+                </Typography>
+                <Typography variant="body1">
+                  You have {deviceCount} device{deviceCount !== 1 ? 's' : ''} and {userCount} user{userCount !== 1 ? 's' : ''} connected.
+                </Typography>
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  All devices are operating normally.
+                </Typography>
+              </Box>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Box>
+
+      {/* ❗ Fallback if no devices */}
+      {deviceCount === 0 && (
+        <Typography variant="h6" color="text.secondary" sx={{ mt: 4 }}>
+          No devices connected yet. Add a new one to get started.
+        </Typography>
+      )}
+
+      {/* 🔹 Device Sections */}
+      {deviceCount > 0 && (
+        <Grid container spacing={4}>
+          {devices.map((device, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={deviceCount === 1 ? 12 : 6}
+              md={deviceCount >= 3 ? 6 : 6}
+              key={device.id}
+            >
+              <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} gutterBottom>
+                    {device.name}
                   </Typography>
-                  <Typography variant="body1" sx={{ opacity: 0.9 }}>
-                    Manage your devices and users with ease.
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    {device.description}
                   </Typography>
-                </Box>
-              </Stack>
-            </CardContent>
-          </Card>
+
+                  {/* System Health */}
+                  <Typography variant="subtitle1" fontWeight={600} mt={2} mb={1}>
+                    System Health
+                  </Typography>
+                  <Stack spacing={2}>
+                    <Battery deviceId={device.id} />
+                    <Temperature deviceId={device.id} />
+                  </Stack>
+
+                  {/* Fuel Monitoring & History */}
+                  <Typography variant="subtitle1" fontWeight={600} mt={3} mb={1}>
+                    Fuel Monitoring & History
+                  </Typography>
+                  <Stack spacing={2}>
+                    <FuelMode deviceId={device.id} />
+                    <ModeHistory deviceId={device.id} />
+                  </Stack>
+
+                  {/* Support & Engagement */}
+                  <Typography variant="subtitle1" fontWeight={600} mt={3} mb={1}>
+                    Support & Engagement
+                  </Typography>
+                  <Stack spacing={2}>
+                    <ServiceRequest deviceId={device.id} />
+                    <SpecialOffer deviceId={device.id} />
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
+      )}
 
-        {stats.map(stat => (
-          <Grid item xs={6} sm={3} md={3} key={stat.label}>
-            <Card sx={{ borderRadius: 3, boxShadow: 2, p: 2 }}>
-              <CardContent>
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  {stat.icon}
-                  <Box>
-                    <Typography variant="h5" fontWeight={700}>
-                      {stat.value}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      {stat.label}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* System Health */}
-      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
-        System Health
+      {/* 🔔 Alerts */}
+      <Typography variant="h6" fontWeight={700} sx={{ mt: 6, mb: 2 }}>
+        Alerts
       </Typography>
+      <Alerts />
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <Stack spacing={3}>
-            <Battery />
-            <Temperature />
-          </Stack>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Alerts />
-        </Grid>
-      </Grid>
-
-      {/* Fuel Control + Mode History */}
-      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
-        Fuel Monitoring & History
+      {/* 📊 UsageChart */}
+      <Typography variant="h6" fontWeight={700} sx={{ mt: 6, mb: 2 }}>
+        Overall Usage Trends
       </Typography>
-
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Stack spacing={3}>
-            <FuelMode />
-            <ModeHistory />
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Box sx={{ mt: { xs: 0, md: -2 } }}>
-            <UsageChart />
-          </Box>
-        </Grid>
-      </Grid>
-
-      {/* Support & Engagement */}
-      <Typography variant="h6" fontWeight={700} sx={{ mt: 4, mb: 1 }}>
-        Support & Engagement
-      </Typography>
-
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Left Column: ServiceRequest */}
-        <Grid item xs={12} md={6}>
-          <ServiceRequest />
-        </Grid>
-
-        {/* Right Column: Stack of SpecialOffer + SystemStatus */}
-        <Grid item xs={12} md={6}>
-          <Stack spacing={3} sx={{ mt: { xs: 0, md: 3 } }}>
-            <SpecialOffer />
-            <SystemStatus />
-          </Stack>
-        </Grid>
-      </Grid>
+      <UsageChart />
     </Box>
   );
 }
