@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { useMediaQuery } from '@mui/material';
-import Dashboard from './Dashboard';
-import MobileDashboard from './MobileDashboard';
+import Dashboard from './Dashboard';           // 📺 Laptop layout — stays untouched
+import MobileDashboard from './MobileDashboard'; // 📱 Mobile layout — now enhanced
+import { useEffect, useState } from 'react';
 import { getDevices, getUsers } from '../utils/api';
 
 export default function DashboardContainer({ user, token }) {
