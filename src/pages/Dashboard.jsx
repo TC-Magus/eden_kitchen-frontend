@@ -37,37 +37,45 @@ export default function Dashboard({ user, devices = [], users = [] }) {
   };
 
   const renderDeviceSection = (device) => (
-    <Grid container spacing={2}>
-      {/* 🔋🌡️ System Health */}
-      <Grid item xs={6}>
-        <Stack spacing={2}>
-          <Battery deviceId={device.id} />
-          <Temperature deviceId={device.id} />
-        </Stack>
-      </Grid>
-      <Grid item xs={6}>
-        <Alerts deviceId={device.id} />
-      </Grid>
+    <Box sx={{ mb: 2 }}>
+      {/* 📛 Device Header */}
+      <Typography variant="h6" fontWeight={700} mb={2}>
+        {device.name || `Device ${device.id}`}
+      </Typography>
 
-      {/* ⛽ Fuel Monitoring & History */}
-      <Grid item xs={6}>
-        <Stack spacing={2}>
-          <FuelMode deviceId={device.id} />
-          <ModeHistory deviceId={device.id} />
-        </Stack>
-      </Grid>
-      <Grid item xs={6}>
-        <UsageChart deviceId={device.id} />
-      </Grid>
+      {/* 🔧 Device Component Grid */}
+      <Grid container spacing={2}>
+        {/* 🔋🌡️ System Health */}
+        <Grid item xs={6}>
+          <Stack spacing={2}>
+            <Battery deviceId={device.id} />
+            <Temperature deviceId={device.id} />
+          </Stack>
+        </Grid>
+        <Grid item xs={6}>
+          <Alerts deviceId={device.id} />
+        </Grid>
 
-      {/* 💌 Support & Engagement */}
-      <Grid item xs={6}>
-        <ServiceRequest deviceId={device.id} />
+        {/* ⛽ Fuel Monitoring & History */}
+        <Grid item xs={6}>
+          <Stack spacing={2}>
+            <FuelMode deviceId={device.id} />
+            <ModeHistory deviceId={device.id} />
+          </Stack>
+        </Grid>
+        <Grid item xs={6}>
+          <UsageChart deviceId={device.id} />
+        </Grid>
+
+        {/* 💌 Support & Engagement */}
+        <Grid item xs={6}>
+          <ServiceRequest deviceId={device.id} />
+        </Grid>
+        <Grid item xs={6}>
+          <SpecialOffer deviceId={device.id} />
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <SpecialOffer deviceId={device.id} />
-      </Grid>
-    </Grid>
+    </Box>
   );
 
   return (
@@ -96,12 +104,11 @@ export default function Dashboard({ user, devices = [], users = [] }) {
                   fontSize: 32
                 }}
               >
-                {user?.name?.[0]?.toUpperCase() || 'U'}
+                {user?.username?.[0]?.toUpperCase() || 'U'}
               </Avatar>
               <Box>
                 <Typography variant="h5" fontWeight={800}>
-                {greeting}, {user?.username || 'User'}!
-
+                  {greeting}, {user?.username || 'User'}!
                 </Typography>
                 <Typography variant="body1">
                   You have {deviceCount} device{deviceCount !== 1 ? 's' : ''} and {userCount} user{userCount !== 1 ? 's' : ''} connected.
