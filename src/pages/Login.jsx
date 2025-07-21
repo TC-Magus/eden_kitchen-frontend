@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TextField, Button, Typography, Box, Snackbar, Card, CardContent, Stack } from '@mui/material';
 import { login } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode'; // ✅ Make sure this is installed
+import { jwtDecode } from 'jwt-decode'; // ✅ Use named import
 
 export default function Login({ setToken, setUser }) {
   const [username, setUsername] = useState('');
