@@ -1,13 +1,13 @@
-import { useMediaQuery } from '@mui/material';
-import Dashboard from './Dashboard';           // 📺 Laptop layout — stays untouched
-import MobileDashboard from './MobileDashboard'; // 📱 Mobile layout — now enhanced
 import { useEffect, useState } from 'react';
+import { useMediaQuery } from '@mui/material';
+import Dashboard from './Dashboard'; // 💻 Laptop version (unchanged)
+import MobileDashboard from './MobileDashboard'; // 📱 Mobile version
 import { getDevices, getUsers } from '../utils/api';
 
 export default function DashboardContainer({ user, token }) {
   const [devices, setDevices] = useState([]);
   const [users, setUsers] = useState([]);
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = useMediaQuery('(max-width:600px)'); // Detect mobile screen
 
   useEffect(() => {
     async function fetchData() {
