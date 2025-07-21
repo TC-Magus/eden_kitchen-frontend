@@ -1,11 +1,13 @@
-// DashboardContainer.jsx
 import { useEffect, useState } from 'react';
+import { useMediaQuery } from '@mui/material';
 import Dashboard from './Dashboard';
+import MobileDashboard from './MobileDashboard';
 import { getDevices, getUsers } from '../utils/api';
 
 export default function DashboardContainer({ user, token }) {
   const [devices, setDevices] = useState([]);
   const [users, setUsers] = useState([]);
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
     async function fetchData() {
@@ -17,5 +19,9 @@ export default function DashboardContainer({ user, token }) {
     fetchData();
   }, [token]);
 
-  return <Dashboard user={user} devices={devices} users={users} />;
+  return isMobile ? (
+    <MobileDashboard user={user} devices={devices} users={users} token={token} />
+  ) : (
+    <Dashboard user={user} devices={devices} users={users} token={token} />
+  );
 }
