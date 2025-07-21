@@ -1,14 +1,16 @@
 import {
-  Typography,
   Box,
-  Grid,
+  Typography,
+  Stack,
   Card,
   CardContent,
   Avatar,
-  Stack
+  Grid,
+  Button,
+  useTheme
 } from '@mui/material';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import Battery from '../components/Battery';
 import Temperature from '../components/Temperature';
 import FuelMode from '../components/FuelMode';
@@ -17,9 +19,12 @@ import ServiceRequest from '../components/ServiceRequest';
 import SpecialOffer from '../components/SpecialOffer';
 import Alerts from '../components/Alerts';
 import UsageChart from '../components/UsageChart';
+import MenuIcon from '@mui/icons-material/Menu';
 
-export default function Dashboard({ user, devices = [], users = [] }) {
+export default function MobileDashboard({ user, devices = [], users = [] }) {
+  const theme = useTheme();
   const [greeting, setGreeting] = useState('');
+  const [activeDeviceId, setActiveDeviceId] = useState(devices[0]?.id || null);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -28,134 +33,74 @@ export default function Dashboard({ user, devices = [], users = [] }) {
     else setGreeting('Good evening');
   }, []);
 
-  const deviceCount = devices.length;
-  const userCount = users.length;
-
-  const getWelcomeAlignment = () => {
-    if (deviceCount === 2) return 'center';
-    return 'flex-start';
-  };
-
-  const renderDeviceSection = (device) => (
-    <Box sx={{ mb: 2 }}>
-      {/* 📛 Device Header */}
-      <Typography variant="h6" fontWeight={700} mb={2}>
-        {device.name || `Device ${device.id}`}
-      </Typography>
-
-      {/* 🔧 Device Component Grid */}
-      <Grid container spacing={2}>
-        {/* 🔋🌡️ System Health */}
-        <Grid item xs={6}>
-          <Stack spacing={2}>
-            <Battery deviceId={device.id} />
-            <Temperature deviceId={device.id} />
-          </Stack>
-        </Grid>
-        <Grid item xs={6}>
-          <Alerts deviceId={device.id} />
-        </Grid>
-
-        {/* ⛽ Fuel Monitoring & History */}
-        <Grid item xs={6}>
-          <Stack spacing={2}>
-            <FuelMode deviceId={device.id} />
-            <ModeHistory deviceId={device.id} />
-          </Stack>
-        </Grid>
-        <Grid item xs={6}>
-          <UsageChart deviceId={device.id} />
-        </Grid>
-
-        {/* 💌 Support & Engagement */}
-        <Grid item xs={6}>
-          <ServiceRequest deviceId={device.id} />
-        </Grid>
-        <Grid item xs={6}>
-          <SpecialOffer deviceId={device.id} />
-        </Grid>
-      </Grid>
-    </Box>
-  );
+  const activeDevice = devices.find((d) => d.id === activeDeviceId);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      {/* ✅ Welcome Card */}
-      <Box sx={{ display: 'flex', justifyContent: getWelcomeAlignment(), mb: 4 }}>
-        <Card
-          sx={{
-            borderRadius: 3,
-            boxShadow: 3,
-            background: 'linear-gradient(to right, #66bb6a, #a5d6a7)',
-            color: '#fff',
-            maxWidth: 480,
-            width: '100%'
-          }}
-        >
-          <CardContent>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Avatar
-                sx={{
-                  width: 72,
-                  height: 72,
-                  bgcolor: '#fff',
-                  color: '#667eea',
-                  fontWeight: 700,
-                  fontSize: 32
-                }}
-              >
-                {user?.username?.[0]?.toUpperCase() || 'U'}
-              </Avatar>
-              <Box>
-                <Typography variant="h5" fontWeight={800}>
-                  {greeting}, {user?.username || 'User'}!
-                </Typography>
-                <Typography variant="body1">
-                  You have {deviceCount} device{deviceCount !== 1 ? 's' : ''} and {userCount} user{userCount !== 1 ? 's' : ''} connected.
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  All devices are operating normally.
-                </Typography>
-              </Box>
-            </Stack>
-          </CardContent>
-        </Card>
-      </Box>
-
-      {/* ❗ Fallback UI */}
-      {deviceCount === 0 && (
-        <Typography variant="body1" color="text.secondary">
-          No devices are currently connected. Please add one to get started.
+    <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh', pb: 8 }}>
+      {/* 🧭 Header */}
+      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ px: 2, pt: 2 }}>
+        <Typography variant="h6" fontWeight={800}>
+          {greeting}, {user?.username || 'User'}!
         </Typography>
+        <MenuIcon />
+      </Stack>
+
+      {/* 🎛️ Device Tab Selector */}
+      <Stack direction="row" spacing={1} sx={{ px: 2, pt: 2, pb: 2, flexWrap: 'wrap' }}>
+        {devices.map((device) => (
+          <Button
+            key={device.id}
+            variant={device.id === activeDeviceId ? 'contained' : 'outlined'}
+            sx={{ borderRadius: 5, textTransform: 'none' }}
+            onClick={() => setActiveDeviceId(device.id)}
+          >
+            {device.name || `Device ${device.id}`}
+          </Button>
+        ))}
+      </Stack>
+
+      {/* 🧩 Active Device Section */}
+      {activeDevice && (
+        <Box sx={{ px: 2 }}>
+          <Typography variant="h6" fontWeight={700} mb={2}>
+            {activeDevice.name || `Device ${activeDevice.id}`}
+          </Typography>
+
+          <Grid container spacing={2}>
+            {/* 🔋🌡️ System Health */}
+            <Grid item xs={12}>
+              <Stack spacing={2}>
+                <Battery deviceId={activeDevice.id} />
+                <Temperature deviceId={activeDevice.id} />
+                <Alerts deviceId={activeDevice.id} />
+              </Stack>
+            </Grid>
+
+            {/* ⛽ Fuel Monitoring & History */}
+            <Grid item xs={12}>
+              <Stack spacing={2}>
+                <FuelMode deviceId={activeDevice.id} />
+                <ModeHistory deviceId={activeDevice.id} />
+                <UsageChart deviceId={activeDevice.id} />
+              </Stack>
+            </Grid>
+
+            {/* 💌 Support & Engagement */}
+            <Grid item xs={12}>
+              <Stack spacing={2}>
+                <ServiceRequest deviceId={activeDevice.id} />
+                <SpecialOffer deviceId={activeDevice.id} />
+              </Stack>
+            </Grid>
+          </Grid>
+        </Box>
       )}
 
-      {/* 🔹 Adaptive Layout for Devices */}
-      {deviceCount > 0 && (
-        <>
-          {/* Render in pairs */}
-          {Array.from({ length: Math.ceil(deviceCount / 2) }, (_, rowIndex) => {
-            const leftDevice = devices[rowIndex * 2];
-            const rightDevice = devices[rowIndex * 2 + 1];
-
-            return (
-              <Grid container spacing={4} key={rowIndex} sx={{ mb: 4 }}>
-                {/* Left Device */}
-                {leftDevice && (
-                  <Grid item xs={12} md={deviceCount === 1 ? 12 : 6}>
-                    {renderDeviceSection(leftDevice)}
-                  </Grid>
-                )}
-
-                {/* Right Device */}
-                {rightDevice && (
-                  <Grid item xs={12} md={6}>
-                    {renderDeviceSection(rightDevice)}
-                  </Grid>
-                )}
-              </Grid>
-            );
-          })}
-        </>
+      {/* ❗ Fallback UI */}
+      {devices.length === 0 && (
+        <Typography variant="body1" color="text.secondary" sx={{ px: 2 }}>
+          No devices are currently connected. Please add one to get started.
+        </Typography>
       )}
     </Box>
   );
